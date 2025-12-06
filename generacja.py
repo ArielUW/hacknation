@@ -232,6 +232,66 @@ SYNTHETIC_DATA = {
     ][:100]
 }
 
+FEMALE_NAMES = {
+    'Anna', 'Katarzyna', 'Małgorzata', 'Agnieszka', 'Barbara', 'Ewa', 'Krystyna', 'Elżbieta', 
+    'Maria', 'Teresa', 'Joanna', 'Magdalena', 'Monika', 'Jadwiga', 'Danuta', 'Irena', 'Zofia',
+    'Aleksandra', 'Natalia', 'Paulina', 'Iwona', 'Beata', 'Dorota', 'Halina', 'Helena', 'Renata',
+    'Karolina', 'Justyna', 'Weronika', 'Sylwia', 'Agata', 'Aneta', 'Izabela', 'Jolanta', 'Grażyna',
+    'Wiktoria', 'Zuzanna', 'Julia', 'Maja', 'Lena', 'Alicja', 'Oliwia', 'Gabriela'
+}
+
+MALE_NAMES = {
+    'Jan', 'Andrzej', 'Piotr', 'Krzysztof', 'Stanisław', 'Tomasz', 'Paweł', 'Józef', 'Marcin',
+    'Marek', 'Michał', 'Grzegorz', 'Jerzy', 'Tadeusz', 'Adam', 'Łukasz', 'Zbigniew', 'Ryszard',
+    'Wojciech', 'Dariusz', 'Henryk', 'Mariusz', 'Jacek', 'Janusz', 'Mateusz', 'Kamil', 'Dawid',
+    'Robert', 'Rafał', 'Jakub', 'Bartosz', 'Damian', 'Sebastian', 'Adrian', 'Patryk', 'Maciej',
+    'Filip', 'Kacper', 'Szymon', 'Mikołaj', 'Wojtek', 'Igor', 'Dominik', 'Oskar', 'Hubert'
+}
+
+def feminize_surname(surname: str) -> str:
+    """
+    Converts a Polish surname to its female form.
+    
+    Rules:
+    - Surnames ending in -ski -> -ska
+    - Surnames ending in -cki -> -cka
+    - Surnames ending in -dzki -> -dzka
+    - Surnames ending in consonant + -i -> replace -i with -a
+    - Some surnames don't change (e.g., ending in -a, -o, or indeclinable)
+    """
+    # Already feminine or indeclinable
+    if surname.endswith(('a', 'o')):
+        return surname
+    
+    # -ski -> -ska
+    if surname.endswith('ski'):
+        return surname[:-1] + 'a'
+    
+    # -cki -> -cka
+    if surname.endswith('cki'):
+        return surname[:-1] + 'a'
+    
+    # -dzki -> -dzka
+    if surname.endswith('dzki'):
+        return surname[:-1] + 'a'
+    
+    # Other surnames ending in -i (like Górski type)
+    if surname.endswith('i') and len(surname) > 2:
+        return surname[:-1] + 'a'
+    
+    # Surnames that don't change (consonant endings, etc.)
+    return surname
+
+
+def is_female_name(name: str) -> bool:
+    """Check if a name is female."""
+    return name in FEMALE_NAMES
+
+
+def is_male_name(name: str) -> bool:
+    """Check if a name is male."""
+    return name in MALE_NAMES
+
 
 def fill_synthetic_data(text: str, randomize: bool = True) -> str:
     """
@@ -250,22 +310,49 @@ def fill_synthetic_data(text: str, randomize: bool = True) -> str:
     """
     result = text
     
-    # Find all placeholders in the text with square brackets
+    # Find all placeholders
     placeholders = re.findall(r'\[([^\]]+)\]', text)
+    
+    # Track the selected name for this text to ensure surname agreement
+    selected_name = None
     
     # Replace each placeholder
     for placeholder in placeholders:
         entity_type = placeholder.strip()
         
         if entity_type in SYNTHETIC_DATA:
-            if randomize:
-                replacement = random.choice(SYNTHETIC_DATA[entity_type])
+            if entity_type == 'name':
+                # Select and remember the name
+                if randomize:
+                    selected_name = random.choice(SYNTHETIC_DATA['name'])
+                else:
+                    index = hash(text + entity_type) % len(SYNTHETIC_DATA['name'])
+                    selected_name = SYNTHETIC_DATA['name'][index]
+                replacement = selected_name
+                
+            elif entity_type == 'surname' and selected_name:
+                # Select surname based on gender of previously selected name
+                if randomize:
+                    base_surname = random.choice(SYNTHETIC_DATA['surname'])
+                else:
+                    index = hash(text + entity_type) % len(SYNTHETIC_DATA['surname'])
+                    base_surname = SYNTHETIC_DATA['surname'][index]
+                
+                # Apply feminine form if the name is female
+                if is_female_name(selected_name):
+                    replacement = feminize_surname(base_surname)
+                else:
+                    replacement = base_surname
+                    
             else:
-                # For non-random, cycle through values
-                index = hash(text + entity_type) % len(SYNTHETIC_DATA[entity_type])
-                replacement = SYNTHETIC_DATA[entity_type][index]
+                # For other entity types, select normally
+                if randomize:
+                    replacement = random.choice(SYNTHETIC_DATA[entity_type])
+                else:
+                    index = hash(text + entity_type) % len(SYNTHETIC_DATA[entity_type])
+                    replacement = SYNTHETIC_DATA[entity_type][index]
             
-            # Replace only the first occurrence to handle multiple same placeholders differently
+            # Replace only the first occurrence
             result = result.replace(f'[{entity_type}]', replacement, 1)
     
     return result
