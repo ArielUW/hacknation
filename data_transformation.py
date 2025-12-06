@@ -52,11 +52,23 @@ def split_into_paragraphs(file_1, file_2): #file_1 – original data, #file_2 �
         if paragraph:
             pairs[paragraph]=anon[i]
 
-    print(pairs)    
+    return pairs
 
-#def transform_labels(file_1, file_2): #file_1 – original data, #file_2 – anonymised
+def compare_paragraphs(pairs):
+    for org, an in pairs.items():
+        print(org)
+        tags = re.findall(r'\[[^[]*\]', an)
+        for tag in tags:
+            left_context = re.find()
+
+def split_by_50(file):
+    with open(file, "r") as f:
+        lines=f.readlines()
+    with open(f"{file[:-4]}_50.txt", "w") as new_file:
+            new_file.writelines(lines[:50])
 
 if __name__=="__main__":
     extract_labels("content/data_2.txt")
-    labels = {'[name-of-product]', '[demographics]', '[tak/nie]', '[surname]', '[sexual-orientation]', '[public-place]', '[department]', '[missing-part]', '[amount]', '[culture]', '[link]', '[pesel]', '[city]', '[health]', '[yes/no]', '[time]', '[version]', '[networking]', '[date]', '[name]', '[job-title]', '[text]', '[#city]', '[social-media-username]', '[higher-amount]', '[active/sedentary]', '[relative]', '[newfollowers]', '[marka]', '[finance]', '[count]', '[sport]', '[travel]', '[vin]', '[initials]', '[promo-code]', '[app-name]', '[data]', '[platform-name]', '[surname_2]', '[country2]', '[country1]', '[industry]', '[username]', '[number]', '[podcast]', '[address]', '[credit-card-number]', '[country]', '[data-analysis]', '[hobby]', '[sex]', '[viral]', '[religion]', '[name_1]', '[software]', '[product-name]', '[food]', '[secret]', '[time-range]', '[introduction]', '[political-view]', '[standard-name]', '[sport-discipline]', '[field]', '[system-version]', '[social-media]', '[surname_1]', '[company]', '[science]', '[#political-view]', '[subject]', '[#health]', '[email]', '[discovery]', '[research]', '[grade]', '[website]', '[phone]', '[last-digit]', '[ethnicity]', '[scientist-name]', '[specific-task]', '[social-media-platform]', '[date-of-birth]', '[name_2]', '[weight-loss/muscle-gain]', '[product]', '[censorship]', '[education]', '[#missingperson]', '[website-url]', '[sector]', '[size]', '[country3]', '[answer]', '[genre]', '[street]', '[gratitude]', '[teamwork]', '[school-name]', '[healthcare-professional]', '[age]', '[percentage]', '[year]', '[debt]', '[vegetarian/vegan]', '[programming-language]', '[model]', '[bank-account]', '[document-number]', '[ID number]'}
-    #split_into_paragraphs("content/data_1.txt", "content/data_2.txt")
+    labels = {'[app-name]', '[age]', '[bank-account]', '[sex]', '[date-of-birth]', '[finance]', '[viral]', '[standard-name]', '[religion]', '[education]', '[initials]', '[public-place]', '[username]', '[address]', '[specific-task]', '[city]', '[website-url]', '[department]', '[yes/no]', '[version]', '[country]', '[social-media-platform]', '[company]', '[censorship]', '[sport-discipline]', '[percentage]', '[sector]', '[gratitude]', '[size]', '[programming-language]', '[marka]', '[travel]', '[last-digit]', '[website]', '[document-number]', '[hobby]', '[ID number]', '[amount]', '[year]', '[political-view]', '[product-name]', '[subject]', '[job-title]', '[text]', '[genre]', '[ethnicity]', '[science]', '[credit-card-number]', '[social-media]', '[phone]', '[time]', '[social-media-username]', '[vin]', '[system-version]', '[sport]', '[number]', '[street]', '[platform-name]', '[discovery]', '[debt]', '[#health]', '[data]', '[date]', '[health]', '[secret]', '[teamwork]', '[industry]', '[tak/nie]', '[product]', '[surname]', '[culture]', '[name]', '[food]', '[relative]', '[field]', '[sexual-orientation]', '[missing-part]', '[email]', '[answer]', '[grade]', '[promo-code]', '[pesel]', '[school-name]', '[model]', '[link]'}
+    #pairs = split_into_paragraphs("content/data_1.txt", "content/data_2.txt")
+    #compare_paragraphs(pairs)
