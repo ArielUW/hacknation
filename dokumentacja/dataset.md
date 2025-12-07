@@ -3,6 +3,10 @@
 ## Niespójność metodologiczna niektórych klas
 Niespójność ta zdaje się dotyczyć przede wszystkim klas [health] i [relative].
 
+## Mało prawdopodobne przykłady
+
+## Brak spójności tekstu
+
 ## Tagi z klas spoza zdefiniowanych w zadaniu
 
 W zanonimizowanym datasecie pojawiały się klasy takie jak:

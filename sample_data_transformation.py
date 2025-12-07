@@ -43,4 +43,4 @@ def main(data_to_transform):
     #cv_data = json.load(open('/content/data_transformed.json','r'))
 
 if __name__=="__main__":
-    main("content/sample_annotations.json")
+    main("content/annotations.json")

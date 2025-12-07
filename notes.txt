@@ -1,3 +1,10 @@
+regex do tagów:
+(\[[^\[]*\])( (\[[^\[]*\]))*
+lewy kontekst:
+([^ \]]* ){1,5}(?=((\[[^\[]*\])( (\[[^\[]*\]))*))
+prawy kontekst
+
+
 '[political-view]', '[document-number]', '[health]', '[date]', '[sexual-orientation]', '[company]', '[credit-card-number]', '[email]', '[ID number]', '[username]', '[school-name]', '[ethnicity]', '[sex]', '[sport]', '[surname]', '[name]', '[model]', '[bank-account]', '[secret]', '[subject]', '[initials]', '[street]', '[phone]', '[date-of-birth]', '[country]', '[age]', '[religion]', '[job-title]', '[address]', '[pesel]', '[city]', '[adress]', '[data]', '[relative]'
 
 {name} – imiona.

@@ -57,18 +57,15 @@ def split_into_paragraphs(file_1, file_2): #file_1 – original data, #file_2 �
 def compare_paragraphs(pairs):
     for org, an in pairs.items():
         print(org)
+        print(an)
+        print(re.split(r'\[[^ \[\]]*\]', an))
         tags = re.findall(r'\[[^[]*\]', an)
-        for tag in tags:
-            left_context = re.find()
+        #for tag in tags:
+            
 
-def split_by_50(file):
-    with open(file, "r") as f:
-        lines=f.readlines()
-    with open(f"{file[:-4]}_50.txt", "w") as new_file:
-            new_file.writelines(lines[:50])
 
 if __name__=="__main__":
     extract_labels("content/data_2.txt")
-    labels = {'[app-name]', '[age]', '[bank-account]', '[sex]', '[date-of-birth]', '[finance]', '[viral]', '[standard-name]', '[religion]', '[education]', '[initials]', '[public-place]', '[username]', '[address]', '[specific-task]', '[city]', '[website-url]', '[department]', '[yes/no]', '[version]', '[country]', '[social-media-platform]', '[company]', '[censorship]', '[sport-discipline]', '[percentage]', '[sector]', '[gratitude]', '[size]', '[programming-language]', '[marka]', '[travel]', '[last-digit]', '[website]', '[document-number]', '[hobby]', '[ID number]', '[amount]', '[year]', '[political-view]', '[product-name]', '[subject]', '[job-title]', '[text]', '[genre]', '[ethnicity]', '[science]', '[credit-card-number]', '[social-media]', '[phone]', '[time]', '[social-media-username]', '[vin]', '[system-version]', '[sport]', '[number]', '[street]', '[platform-name]', '[discovery]', '[debt]', '[#health]', '[data]', '[date]', '[health]', '[secret]', '[teamwork]', '[industry]', '[tak/nie]', '[product]', '[surname]', '[culture]', '[name]', '[food]', '[relative]', '[field]', '[sexual-orientation]', '[missing-part]', '[email]', '[answer]', '[grade]', '[promo-code]', '[pesel]', '[school-name]', '[model]', '[link]'}
+    labels = {'[date]', '[adress]', '[school-name]', '[email]', '[age]', '[religion]', '[sport]', '[surname]', '[phone]', '[job-title]', '[model]', '[username]', '[address]', '[health]', '[date-of-birth]', '[political-view]', '[country]', '[sex]', '[city]', '[name]', '[initials]', '[subject]', '[credit-card-number]', '[bank-account]', '[document-number]', '[data]', '[pesel]', '[secret]', '[company]', '[ID number]', '[sexual-orientation]', '[relative]', '[ethnicity]', '[street]'}
     #pairs = split_into_paragraphs("content/data_1.txt", "content/data_2.txt")
     #compare_paragraphs(pairs)
